@@ -1,0 +1,16 @@
+/Users/vladimir/family-tree/src/main/java/com/familytree/App.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/model/FamilyTree.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/model/MediaRef.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/model/Person.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/model/PersonId.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/model/Relationship.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/model/RelationshipType.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/store/FamilyTreeJson.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/store/ProjectTransfer.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/store/TreeStore.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/ui/MainView.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/ui/PersonCardPane.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/ui/SearchPane.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/ui/SelectionModel.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/ui/TopBar.java
+/Users/vladimir/family-tree/src/main/java/com/familytree/ui/TreeCanvas.java

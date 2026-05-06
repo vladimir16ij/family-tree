@@ -1,0 +1,61 @@
+{
+  "people" : [ {
+    "id" : "edf6e01b-1f65-4d2f-852a-3dce7071606b",
+    "firstName" : "Alex",
+    "lastName" : "Ivanov",
+    "birthDate" : "1995-03-16",
+    "deathDate" : null,
+    "notes" : "bla bla",
+    "x" : 200.0,
+    "y" : 150.0,
+    "media" : [ {
+      "id" : "4824cb8e-a824-464a-a703-0fc8899ec96f",
+      "fileName" : "_00photo_2024-12-31_10-51-16.jpg",
+      "relativePath" : "media/4824cb8e-a824-464a-a703-0fc8899ec96f__00photo_2024-12-31_10-51-16.jpg",
+      "mimeType" : "image/jpeg"
+    } ]
+  }, {
+    "id" : "39289a44-dde9-458b-af5e-2df44a59d3f1",
+    "firstName" : "Maria",
+    "lastName" : "Ivanova",
+    "birthDate" : null,
+    "deathDate" : null,
+    "notes" : null,
+    "x" : 450.0,
+    "y" : 149.0,
+    "media" : [ ]
+  }, {
+    "id" : "b21d95a6-71af-4242-b061-c79c7be091c5",
+    "firstName" : "Nina",
+    "lastName" : "Ivanova",
+    "birthDate" : null,
+    "deathDate" : null,
+    "notes" : null,
+    "x" : 320.0,
+    "y" : 321.0,
+    "media" : [ ]
+  }, {
+    "id" : "bffc806d-5bd2-458d-b7ff-bd058321c1a3",
+    "firstName" : "Ivan",
+    "lastName" : "Sidorov",
+    "birthDate" : null,
+    "deathDate" : null,
+    "notes" : "Ivan Sidorov\n",
+    "x" : 91.0,
+    "y" : 42.0,
+    "media" : [ ]
+  } ],
+  "relationships" : [ {
+    "from" : "edf6e01b-1f65-4d2f-852a-3dce7071606b",
+    "to" : "39289a44-dde9-458b-af5e-2df44a59d3f1",
+    "type" : "PARTNER_OF"
+  }, {
+    "from" : "edf6e01b-1f65-4d2f-852a-3dce7071606b",
+    "to" : "b21d95a6-71af-4242-b061-c79c7be091c5",
+    "type" : "PARENT_OF"
+  }, {
+    "from" : "39289a44-dde9-458b-af5e-2df44a59d3f1",
+    "to" : "b21d95a6-71af-4242-b061-c79c7be091c5",
+    "type" : "PARENT_OF"
+  } ]
+}
