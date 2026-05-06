@@ -14,10 +14,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public final class TreeCanvas extends Pane {
     private final FamilyTree tree;
@@ -36,7 +39,10 @@ public final class TreeCanvas extends Pane {
         setPadding(new Insets(10));
         setStyle("-fx-background-color: #0f172a; -fx-background-insets: 0; -fx-background-radius: 12;");
 
-        selection.selectedPersonProperty().addListener((obs, oldV, newV) -> updateSelectionStyles());
+        selection.selectedPersonProperty().addListener((obs, oldV, newV) -> {
+            updateSelectionStyles();
+            updateRelationshipHighlighting();
+        });
 
         refresh();
     }
@@ -55,20 +61,34 @@ public final class TreeCanvas extends Pane {
             NodeView from = nodeViews.get(r.from().value());
             NodeView to = nodeViews.get(r.to().value());
             if (from == null || to == null) continue;
+
             Line line = new Line();
-            line.setStroke(r.type() == RelationshipType.PARTNER_OF ? Color.web("#60a5fa") : Color.web("#94a3b8"));
-            line.setStrokeWidth(r.type() == RelationshipType.PARTNER_OF ? 2.5 : 2.0);
+            styleLine(line, r, false);
             line.startXProperty().bind(from.layoutXProperty().add(70));
             line.startYProperty().bind(from.layoutYProperty().add(22));
             line.endXProperty().bind(to.layoutXProperty().add(70));
             line.endYProperty().bind(to.layoutYProperty().add(22));
             getChildren().add(line);
+
+            // label at midpoint (kept subtle; becomes brighter when highlighted)
+            Text tag = new Text(r.type() == RelationshipType.PARTNER_OF ? "Partner" : "Parent");
+            tag.setFont(Font.font(11));
+            tag.setFill(Color.web("#cbd5e1"));
+            tag.setOpacity(0.35);
+            tag.xProperty().bind(line.startXProperty().add(line.endXProperty()).divide(2).subtract(22));
+            tag.yProperty().bind(line.startYProperty().add(line.endYProperty()).divide(2).subtract(6));
+            getChildren().add(tag);
+
+            // store references on nodes for updateRelationshipHighlighting
+            from.lines.add(new RelLine(r, line, tag));
+            to.lines.add(new RelLine(r, line, tag));
         }
 
         // nodes on top
         getChildren().addAll(nodeViews.values());
 
         updateSelectionStyles();
+        updateRelationshipHighlighting();
     }
 
     private void updateSelectionStyles() {
@@ -78,10 +98,44 @@ public final class TreeCanvas extends Pane {
         }
     }
 
+    private void updateRelationshipHighlighting() {
+        Person sel = selection.getSelectedPerson();
+        Set<String> highlight = new HashSet<>();
+        if (sel != null) {
+            highlight.add(sel.id().value());
+            tree.partnersOf(sel.id()).forEach(p -> highlight.add(p.id().value()));
+            tree.parentsOf(sel.id()).forEach(p -> highlight.add(p.id().value()));
+            tree.childrenOf(sel.id()).forEach(p -> highlight.add(p.id().value()));
+        }
+
+        for (NodeView v : nodeViews.values()) {
+            for (RelLine rl : v.lines) {
+                boolean active = sel != null
+                        && (rl.r.from().equals(sel.id()) || rl.r.to().equals(sel.id()))
+                        && highlight.contains(rl.r.from().value())
+                        && highlight.contains(rl.r.to().value());
+                styleLine(rl.line, rl.r, active);
+                rl.tag.setOpacity(active ? 0.95 : 0.35);
+            }
+        }
+    }
+
+    private static void styleLine(Line line, Relationship r, boolean active) {
+        if (r.type() == RelationshipType.PARTNER_OF) {
+            line.setStroke(Color.web(active ? "#93c5fd" : "#60a5fa"));
+            line.setStrokeWidth(active ? 4.0 : 2.5);
+        } else {
+            line.setStroke(Color.web(active ? "#fbbf24" : "#94a3b8"));
+            line.setStrokeWidth(active ? 3.5 : 2.0);
+        }
+        line.setOpacity(active ? 1.0 : 0.55);
+    }
+
     private final class NodeView extends Pane {
         private final Person person;
         private final Rectangle bg = new Rectangle(140, 44);
         private final Text label = new Text();
+        private final Set<RelLine> lines = new HashSet<>();
 
         private double dragOffsetX;
         private double dragOffsetY;
@@ -189,5 +243,7 @@ public final class TreeCanvas extends Pane {
             }
         }
     }
+
+    private record RelLine(Relationship r, Line line, Text tag) {}
 }
 

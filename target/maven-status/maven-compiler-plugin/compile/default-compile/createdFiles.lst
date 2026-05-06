@@ -12,9 +12,11 @@ com/familytree/model/RelationshipType.class
 com/familytree/model/MediaRef.class
 com/familytree/store/FamilyTreeJson$RelationshipJson.class
 com/familytree/store/TreeStore.class
+com/familytree/ui/PersonCardPane$PersonCell.class
 com/familytree/ui/SearchPane$1.class
 com/familytree/App.class
 com/familytree/store/FamilyTreeJson$PersonJson.class
+com/familytree/ui/TreeCanvas$RelLine.class
 com/familytree/ui/PersonCardPane.class
 com/familytree/ui/TopBar.class
 com/familytree/store/ProjectTransfer.class
